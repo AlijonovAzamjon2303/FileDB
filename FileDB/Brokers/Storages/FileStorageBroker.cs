@@ -6,7 +6,7 @@ using FileDB.Models.Users;
 
 namespace FileDB.Brokers.Storages
 {
-    internal class FileStorageBroker
+    internal class FileStorageBroker : IStorageBroker
     {
         private const string FILEPATH = "../../../Users.txt";
         public FileStorageBroker()
