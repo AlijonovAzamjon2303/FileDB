@@ -26,7 +26,10 @@ namespace FileDB.Services.UserServices
         public void ShowUsers()
         {
             List<User> users = this.storageBroker.ReadAllUsers();
-
+            if(users == null)
+            {
+                Console.WriteLine("Hali hech kim qo'shilmagan");
+            }
             foreach (User user in users)
             {
                 this.loggingBroker.LogInforamation($"{user.Id}. {user.Name}");

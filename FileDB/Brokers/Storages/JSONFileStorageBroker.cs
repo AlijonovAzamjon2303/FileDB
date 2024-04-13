@@ -4,23 +4,29 @@
 
 using FileDB.Models.Users;
 using System.Text.Json;
+using System.Collections.Generic;
 
 namespace FileDB.Brokers.Storages
 {
     internal class JSONFileStorageBroker : IStorageBroker
     {
         private const string FILEPATH = "../../../Assets/Users.json";
+        private JsonSerializerOptions options;
         public JSONFileStorageBroker()
         {
             EnsureFileExists();
+            options = new JsonSerializerOptions();
+            options.PropertyNameCaseInsensitive = true;
+            options.WriteIndented = true;
         }
         public User AddUser(User user)
         {
-            string jsonText = File.ReadAllText(FILEPATH);
-            List<User> users = ReadAllUsers();
+            List<User> users = this.ReadAllUsers();
             users.Add(user);
-            jsonText = JsonSerializer.Serialize(users);
-            File.WriteAllText(FILEPATH, jsonText);
+
+            string jsonUsers = JsonSerializer.Serialize(users, options);
+
+            File.WriteAllText(FILEPATH, jsonUsers);
 
             return user;
         }
@@ -32,8 +38,8 @@ namespace FileDB.Brokers.Storages
 
         public List<User> ReadAllUsers()
         {
-            var userJson = File.ReadAllText(FILEPATH);
-            List<User> users = JsonSerializer.Deserialize<List<User>>(userJson);
+            string userJson = File.ReadAllText(FILEPATH);
+            List<User> users = JsonSerializer.Deserialize<List<User>>(userJson, options);
 
             return users;
         }
@@ -48,6 +54,7 @@ namespace FileDB.Brokers.Storages
             if(!exists)
             {
                 File.Create(FILEPATH).Close();
+                File.AppendAllText(FILEPATH, "[]");
             }
         }
     }
