@@ -14,7 +14,7 @@ namespace FileDB.Services.UserServices
         private readonly ILoggingBroker loggingBroker;
         public UserService()
         {
-            this.storageBroker = new FileStorageBroker();
+            this.storageBroker = new JSONFileStorageBroker();
             this.loggingBroker = new LoggingBroker();
         }
         public User AddUser(User user)
@@ -58,7 +58,7 @@ namespace FileDB.Services.UserServices
             {
                 if (users[i] != null && users[i].Id == id)
                 {
-                    users[i] = null;
+                    this.storageBroker.DeleteUser(id);
                     this.loggingBroker.LogInforamation($"User with ID {id} deleted successfully.");
                     return;
                 }
