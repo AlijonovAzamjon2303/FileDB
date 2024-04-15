@@ -12,9 +12,9 @@ namespace FileDB.Services.UserServices
     {
         private readonly IStorageBroker storageBroker;
         private readonly ILoggingBroker loggingBroker;
-        public UserService()
+        public UserService(IStorageBroker storageBroker)
         {
-            this.storageBroker = new JSONFileStorageBroker();
+            this.storageBroker = storageBroker;
             this.loggingBroker = new LoggingBroker();
         }
         public User AddUser(User user)

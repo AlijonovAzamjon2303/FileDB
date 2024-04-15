@@ -1,13 +1,15 @@
 ﻿//----------------------------------------
 // Tarteeb School (c) All rights reserved
 //----------------------------------------
+using FileDB.Brokers.Storages;
 using FileDB.Services.UserProcessing;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        UserProcessingService userProcessingService = new UserProcessingService();
+        IStorageBroker storageBroker =  ChooseDB();
+        UserProcessingService userProcessingService = new UserProcessingService(storageBroker);
 
         string userChoice;
         do
@@ -73,5 +75,21 @@ internal class Program
         Console.WriteLine("3.Delete User by id");
         Console.WriteLine("4.Update User by id");
         Console.WriteLine("0.Exit");
+    }
+    public static IStorageBroker ChooseDB()
+    {
+        IStorageBroker broker;
+        Console.WriteLine("1. .txt file");
+        Console.WriteLine("2. .json file");
+        Console.Write("Enter your choice : ");
+        string choice = Console.ReadLine();
+
+        broker = choice switch
+        {
+            "1" => new FileStorageBroker(),
+            "2" => new JSONFileStorageBroker()
+        };
+        
+        return broker;
     }
 }

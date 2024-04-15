@@ -33,7 +33,17 @@ namespace FileDB.Brokers.Storages
 
         public void DeleteUser(int id)
         {
-            throw new NotImplementedException();
+            List<User> users = this.ReadAllUsers();
+            for(int i = 0; i < users.Count; i++)
+            {
+                if (users[i].Id == id)
+                {
+                    users.RemoveAt(i);
+                    break;
+                }
+            }
+
+            this.WriteUsers(users);
         }
 
         public List<User> ReadAllUsers()
@@ -46,7 +56,17 @@ namespace FileDB.Brokers.Storages
 
         public void UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            List<User> users = this.ReadAllUsers();
+            for(int i = 0; i < users.Count;i++)
+            {
+                if (users[i].Id == user.Id)
+                {
+                    users[i] = user;
+                    break;
+                }
+            }
+
+            this.WriteUsers(users);
         }
         private void EnsureFileExists()
         {
@@ -56,6 +76,13 @@ namespace FileDB.Brokers.Storages
                 File.Create(FILEPATH).Close();
                 File.AppendAllText(FILEPATH, "[]");
             }
+        }
+
+        private void WriteUsers(List<User> users)
+        {
+            string jsonUsers = JsonSerializer.Serialize(users, options);
+
+            File.WriteAllText(FILEPATH, jsonUsers);
         }
     }
 }

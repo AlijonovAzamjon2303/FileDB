@@ -12,16 +12,16 @@ namespace FileDB.Services.Identities
         private static IdentityService instance;
         private readonly IStorageBroker storagesBroker;
 
-        private IdentityService()
+        private IdentityService(IStorageBroker storageBroker)
         {
-            this.storagesBroker = new FileStorageBroker();
+            this.storagesBroker = storageBroker;
         }
 
-        public static IdentityService GetIdentityService()
+        public static IdentityService GetIdentityService(IStorageBroker storageBroker)
         {
             if (instance == null)
             {
-                instance = new IdentityService();
+                instance = new IdentityService(storageBroker);
             }
             return instance;
         }
@@ -30,15 +30,13 @@ namespace FileDB.Services.Identities
         {
             List<User> users = this.storagesBroker.ReadAllUsers();
 
-            return users.Count is not 0
-                ? IncrementListUsersId(users)
-                : 1;
-        }
+            int maxId = 0;
+            foreach (User user in users)
+            {
+                maxId = Math.Max(maxId, user.Id);
+            }
 
-        private static int IncrementListUsersId(List<User> users)
-        {
-            return users[users.Count - 1].Id + 1;
-
+            return maxId + 1;
         }
     }
 }

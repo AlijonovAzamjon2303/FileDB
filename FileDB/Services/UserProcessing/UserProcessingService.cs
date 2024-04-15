@@ -2,6 +2,7 @@
 // Tarteeb School (c) All rights reserved
 //----------------------------------------
 
+using FileDB.Brokers.Storages;
 using FileDB.Models.Users;
 using FileDB.Services.Identities;
 using FileDB.Services.UserServices;
@@ -12,11 +13,10 @@ namespace FileDB.Services.UserProcessing
     {
         private readonly IUserService userService;
         private readonly IdentityService identityService;
-
-        public UserProcessingService()
+        public UserProcessingService(IStorageBroker storageBroker)
         {
-            this.userService = new UserService();
-            this.identityService = IdentityService.GetIdentityService();
+            this.userService = new UserService(storageBroker);
+            this.identityService = IdentityService.GetIdentityService(storageBroker);
         }
 
         public void CreateNewUser(string name)
