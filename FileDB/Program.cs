@@ -1,14 +1,16 @@
 ﻿//----------------------------------------
 // Tarteeb School (c) All rights reserved
 //----------------------------------------
+using FileDB.Brokers.Loggings;
 using FileDB.Brokers.Storages;
+using FileDB.Composite;
 using FileDB.Services.UserProcessing;
-
 internal class Program
 {
     private static void Main(string[] args)
     {
-        IStorageBroker storageBroker =  ChooseDB();
+        ILoggingBroker broker = new LoggingBroker();    
+        IStorageBroker storageBroker = ChooseDB();
         UserProcessingService userProcessingService = new UserProcessingService(storageBroker);
 
         string userChoice;
@@ -58,7 +60,13 @@ internal class Program
                     break;
                 case "5":
                     {
-                        Console.WriteLine(userProcessingService.GetUserStorageSize());
+                        string FILEPATH = "../../../Assets/";
+                        DirectoryInfo directoryInfo = new DirectoryInfo(FILEPATH);
+
+                        IDirectory directory = new FileDB.Composite.Directory();
+                        long size = directory.GetSize(directoryInfo);
+
+                        broker.LogInforamation($"Your total size : {size}");
                     }
                     break;
 
@@ -95,7 +103,7 @@ internal class Program
             "1" => new FileStorageBroker(),
             "2" => new JSONFileStorageBroker()
         };
-        
+
         return broker;
     }
 }
