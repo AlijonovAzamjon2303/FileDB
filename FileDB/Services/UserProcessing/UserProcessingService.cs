@@ -46,5 +46,33 @@ namespace FileDB.Services.UserProcessing
         {
             this.userService.Delete(id);
         }
+        public long GetUserStorageSize()
+        {
+            long fileSize;
+            string folderPath = "../../../Assets";
+            DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
+            fileSize = this.CalculateFolderSize(directoryInfo);
+
+            return fileSize;
+        }
+
+        long CalculateFolderSize(DirectoryInfo folder)
+        {
+            long size = 0;
+
+            FileInfo[] files = folder.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                size += file.Length;
+            }
+
+            DirectoryInfo[] subfolders = folder.GetDirectories();
+            foreach (DirectoryInfo subfolder in subfolders)
+            {
+                size += CalculateFolderSize(subfolder);
+            }
+
+            return size;
+        }
     }
 }

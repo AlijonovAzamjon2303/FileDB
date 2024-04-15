@@ -56,6 +56,11 @@ internal class Program
                         userProcessingService.UpdateUser(id, name);
                     }
                     break;
+                case "5":
+                    {
+                        Console.WriteLine(userProcessingService.GetUserStorageSize());
+                    }
+                    break;
 
                 case "0": break;
 
@@ -74,6 +79,7 @@ internal class Program
         Console.WriteLine("2.Display User");
         Console.WriteLine("3.Delete User by id");
         Console.WriteLine("4.Update User by id");
+        Console.WriteLine("5.Get File Size");
         Console.WriteLine("0.Exit");
     }
     public static IStorageBroker ChooseDB()
