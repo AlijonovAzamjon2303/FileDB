@@ -9,8 +9,8 @@ namespace FileDB.Services.UserServices
     internal interface IUserService
     {
         User AddUser(User user);
-        void ShowUsers();
-        void Update(User user);
-        void Delete(int id);
+        List<User> GetAllUsers();
+        User Update(User user);
+        bool Delete(int id);
     }
 }

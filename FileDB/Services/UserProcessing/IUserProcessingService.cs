@@ -4,13 +4,13 @@
 
 using FileDB.Models.Users;
 
-namespace FileDB.Brokers.Storages
+namespace FileDB.Services.UserProcessing
 {
-    internal interface IStorageBroker
+    internal interface IUserProcessingService
     {
-        User AddUser(User user);
-        List<User> ReadAllUsers();
+        bool CreateNewUser();
+        List<User> GetUsers();
         User UpdateUser(User user);
-        bool DeleteUser(int id);
+        User DeleteUser(int id);
     }
 }

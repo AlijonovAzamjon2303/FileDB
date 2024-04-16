@@ -25,25 +25,27 @@ namespace FileDB.Brokers.Storages
             users.Add(user);
 
             string jsonUsers = JsonSerializer.Serialize(users, options);
-
             File.WriteAllText(FILEPATH, jsonUsers);
 
             return user;
         }
 
-        public void DeleteUser(int id)
+        public bool DeleteUser(int id)
         {
             List<User> users = this.ReadAllUsers();
+            int index = -1;
             for(int i = 0; i < users.Count; i++)
             {
                 if (users[i].Id == id)
                 {
-                    users.RemoveAt(i);
-                    break;
+                    index = i;
                 }
             }
 
+            users.RemoveAt(index);
             this.WriteUsers(users);
+
+            return true;
         }
 
         public List<User> ReadAllUsers()
@@ -54,7 +56,7 @@ namespace FileDB.Brokers.Storages
             return users;
         }
 
-        public void UpdateUser(User user)
+        public User UpdateUser(User user)
         {
             List<User> users = this.ReadAllUsers();
             for(int i = 0; i < users.Count;i++)
@@ -67,6 +69,8 @@ namespace FileDB.Brokers.Storages
             }
 
             this.WriteUsers(users);
+            
+            return user;
         }
         private void EnsureFileExists()
         {

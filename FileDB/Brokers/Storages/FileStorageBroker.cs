@@ -16,11 +16,11 @@ namespace FileDB.Brokers.Storages
         public User AddUser(User user)
         {
             string userLine = $"{user.Id}*{user.Name}\n";
-
             File.AppendAllText(FILEPATH, userLine);
+
             return user;
         }
-        public void UpdateUser(User user)
+        public User UpdateUser(User user)
         {
             List<User> users = ReadAllUsers();
             for (int i = 0; i < users.Count; i++)
@@ -36,6 +36,8 @@ namespace FileDB.Brokers.Storages
             {
                 AddUser(user1);
             }
+
+            return user;
         }
         public List<User> ReadAllUsers()
         {
@@ -64,7 +66,7 @@ namespace FileDB.Brokers.Storages
             }
         }
 
-        public void DeleteUser(int id)
+        public bool DeleteUser(int id)
         {
             List<User> users = this.ReadAllUsers();
             File.WriteAllText(FILEPATH, string.Empty);
@@ -76,6 +78,8 @@ namespace FileDB.Brokers.Storages
                     this.AddUser(users[i]);
                 }
             }
+
+            return true;
         }
     }
 }

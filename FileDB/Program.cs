@@ -4,6 +4,7 @@
 using FileDB.Brokers.Loggings;
 using FileDB.Brokers.Storages;
 using FileDB.Composite;
+using FileDB.Models.Users;
 using FileDB.Services.UserProcessing;
 internal class Program
 {
@@ -31,7 +32,7 @@ internal class Program
                 case "2":
                     {
                         Console.Clear();
-                        userProcessingService.DisplayUsers();
+                        broker.PrintUsers(userProcessingService.GetUsers());
                     }
                     break;
 
@@ -55,11 +56,13 @@ internal class Program
                         int id = Convert.ToInt32(idStr);
                         Console.Write("Enter name:");
                         string name = Console.ReadLine();
-                        userProcessingService.UpdateUser(id, name);
+                        User newUser = new User() { Id = id, Name = name};
+                        userProcessingService.UpdateUser(newUser);
                     }
                     break;
                 case "5":
                     {
+                        Console.Clear();
                         string FILEPATH = "../../../Assets/";
                         DirectoryInfo directoryInfo = new DirectoryInfo(FILEPATH);
 
