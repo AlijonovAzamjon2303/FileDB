@@ -6,4 +6,4 @@ Siz quyidagi dasturda .json yoki .txt fayllardan database sifatida foydalanishni
 ### Database turi tanlangandan keyin siz quyidagi 5 ta ishlardan birini bajarishingiz mumkin.   
 ![image](https://github.com/AlijonovAzamjon2303/FileDB/assets/112892881/18754502-86c3-428d-a7e9-fc28bc474f66)
 ### Quyida esa dastur ishidan namunan keltiramiz :    
-![demoFileDB](https://github.com/AlijonovAzamjon2303/FileDB/assets/112892881/1a2f5583-90cb-468b-a9cf-2f23bde52a95)
+![demoFileDB](https://github.com/AlijonovAzamjon2303/FileDB/assets/112892881/dbb11940-2010-4888-ad58-1338116787be)
