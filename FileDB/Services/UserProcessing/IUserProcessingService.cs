@@ -8,7 +8,7 @@ namespace FileDB.Services.UserProcessing
 {
     internal interface IUserProcessingService
     {
-        bool CreateNewUser();
+        User AddUser(User user);
         List<User> GetUsers();
         User UpdateUser(User user);
         User DeleteUser(int id);

@@ -2,9 +2,9 @@
 // Tarteeb School (c) All rights reserved
 //----------------------------------------
 
-namespace FileDB.Composite
+namespace FileDB.Services.Files
 {
-    internal interface IDirectory
+    internal interface IDirectoryService
     {
         long GetSize(DirectoryInfo directoryInfo);
     }

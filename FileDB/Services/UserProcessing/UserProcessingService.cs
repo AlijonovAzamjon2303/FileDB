@@ -9,7 +9,7 @@ using FileDB.Services.UserServices;
 
 namespace FileDB.Services.UserProcessing
 {
-    internal class UserProcessingService
+    internal class UserProcessingService : IUserProcessingService
     {
         private readonly IUserService userService;
         private readonly IdentityService identityService;
@@ -19,26 +19,38 @@ namespace FileDB.Services.UserProcessing
             this.identityService = IdentityService.GetIdentityService(storageBroker);
         }
 
-        public bool CreateNewUser(string name)
+        public User AddUser(User user)
         {
-            User user = new User();
             user.Id = this.identityService.GetNewId();
-            user.Name = name;
             this.userService.AddUser(user);
 
-            return true;
+            return user;
         }
 
         public List<User> GetUsers() => this.userService.GetAllUsers();
 
-        public void UpdateUser(User user)
+        public User UpdateUser(User user)
         {
             this.userService.Update(user);
+
+            return user;
         }
 
-        public void DeleteUser(int id)
+        public User DeleteUser(int id)
         {
-            this.userService.Delete(id);
+            List<User> users = this.userService.GetAllUsers();
+            User needDelete = new User();
+            foreach (User user in users) 
+            {
+                if(user.Id == id)
+                {
+                    needDelete = user;
+                }
+            }
+
+            this.userService.Delete(needDelete);
+
+            return needDelete;
         }
     }
 }

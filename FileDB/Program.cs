@@ -3,16 +3,16 @@
 //----------------------------------------
 using FileDB.Brokers.Loggings;
 using FileDB.Brokers.Storages;
-using FileDB.Composite;
 using FileDB.Models.Users;
+using FileDB.Services.Files;
 using FileDB.Services.UserProcessing;
 internal class Program
 {
     private static void Main(string[] args)
     {
-        ILoggingBroker broker = new LoggingBroker();    
+        ILoggingBroker broker = new LoggingBroker();
         IStorageBroker storageBroker = ChooseDB();
-        UserProcessingService userProcessingService = new UserProcessingService(storageBroker);
+        IUserProcessingService userProcessingService = new UserProcessingService(storageBroker);
 
         string userChoice;
         do
@@ -26,7 +26,8 @@ internal class Program
                     Console.Clear();
                     Console.Write("Enter you name:");
                     string userName = Console.ReadLine();
-                    userProcessingService.CreateNewUser(userName);
+                    User newUser = new User() { Name = userName};
+                    userProcessingService.AddUser(newUser);
                     break;
 
                 case "2":
@@ -56,18 +57,18 @@ internal class Program
                         int id = Convert.ToInt32(idStr);
                         Console.Write("Enter name:");
                         string name = Console.ReadLine();
-                        User newUser = new User() { Id = id, Name = name};
-                        userProcessingService.UpdateUser(newUser);
+                        User newEditUser = new User() { Id = id, Name = name };
+                        userProcessingService.UpdateUser(newEditUser);
                     }
                     break;
                 case "5":
                     {
                         Console.Clear();
-                        string FILEPATH = "../../../Assets/";
-                        DirectoryInfo directoryInfo = new DirectoryInfo(FILEPATH);
+                        string filePath = "../../../Assets/";
+                        DirectoryInfo directoryInfo = new DirectoryInfo(filePath);
 
-                        IDirectory directory = new FileDB.Composite.Directory();
-                        long size = directory.GetSize(directoryInfo);
+                        IDirectoryService directoryService = new DirectoryService();
+                        long size = directoryService.GetSize(directoryInfo);
 
                         broker.LogInforamation($"Your total size : {size}");
                     }

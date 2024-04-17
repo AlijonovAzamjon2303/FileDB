@@ -10,7 +10,7 @@ namespace FileDB.Brokers.Storages
 {
     internal class JSONFileStorageBroker : IStorageBroker
     {
-        private const string FILEPATH = "../../../Assets/Users.json";
+        private const string filePath = "../../../Assets/Users.json";
         private JsonSerializerOptions options;
         public JSONFileStorageBroker()
         {
@@ -25,32 +25,31 @@ namespace FileDB.Brokers.Storages
             users.Add(user);
 
             string jsonUsers = JsonSerializer.Serialize(users, options);
-            File.WriteAllText(FILEPATH, jsonUsers);
+            File.WriteAllText(filePath, jsonUsers);
 
             return user;
         }
 
-        public bool DeleteUser(int id)
+        public User DeleteUser(User user)
         {
             List<User> users = this.ReadAllUsers();
             int index = -1;
             for(int i = 0; i < users.Count; i++)
             {
-                if (users[i].Id == id)
+                if (users[i].Id == user.Id)
                 {
                     index = i;
                 }
             }
-
             users.RemoveAt(index);
             this.WriteUsers(users);
 
-            return true;
+            return user;
         }
 
         public List<User> ReadAllUsers()
         {
-            string userJson = File.ReadAllText(FILEPATH);
+            string userJson = File.ReadAllText(filePath);
             List<User> users = JsonSerializer.Deserialize<List<User>>(userJson, options);
 
             return users;
@@ -74,11 +73,11 @@ namespace FileDB.Brokers.Storages
         }
         private void EnsureFileExists()
         {
-            bool exists = File.Exists(FILEPATH);
+            bool exists = File.Exists(filePath);
             if(!exists)
             {
-                File.Create(FILEPATH).Close();
-                File.AppendAllText(FILEPATH, "[]");
+                File.Create(filePath).Close();
+                File.AppendAllText(filePath, "[]");
             }
         }
 
@@ -86,7 +85,7 @@ namespace FileDB.Brokers.Storages
         {
             string jsonUsers = JsonSerializer.Serialize(users, options);
 
-            File.WriteAllText(FILEPATH, jsonUsers);
+            File.WriteAllText(filePath, jsonUsers);
         }
     }
 }

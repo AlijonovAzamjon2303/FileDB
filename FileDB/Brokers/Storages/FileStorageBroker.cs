@@ -8,7 +8,7 @@ namespace FileDB.Brokers.Storages
 {
     internal class FileStorageBroker : IStorageBroker
     {
-        private const string FILEPATH = "../../../Assets/Users.txt";
+        private const string filePath = "../../../Assets/Users.txt";
         public FileStorageBroker()
         {
             EnsureFileExists();
@@ -16,7 +16,7 @@ namespace FileDB.Brokers.Storages
         public User AddUser(User user)
         {
             string userLine = $"{user.Id}*{user.Name}\n";
-            File.AppendAllText(FILEPATH, userLine);
+            File.AppendAllText(filePath, userLine);
 
             return user;
         }
@@ -31,7 +31,7 @@ namespace FileDB.Brokers.Storages
                     break;
                 }
             }
-            File.WriteAllText(FILEPATH, string.Empty);
+            File.WriteAllText(filePath, string.Empty);
             foreach (User user1 in users)
             {
                 AddUser(user1);
@@ -41,7 +41,7 @@ namespace FileDB.Brokers.Storages
         }
         public List<User> ReadAllUsers()
         {
-            string[] userLines = File.ReadAllLines(FILEPATH);
+            string[] userLines = File.ReadAllLines(filePath);
             List<User> users = new List<User>();
 
             foreach (string userLine in userLines)
@@ -59,27 +59,33 @@ namespace FileDB.Brokers.Storages
         }
         private void EnsureFileExists()
         {
-            bool fileExists = File.Exists(FILEPATH);
+            bool fileExists = File.Exists(filePath);
             if (fileExists is false)
             {
-                File.Create(FILEPATH).Close();
+                File.Create(filePath).Close();
             }
         }
 
-        public bool DeleteUser(int id)
+        public User DeleteUser(User user)
         {
             List<User> users = this.ReadAllUsers();
-            File.WriteAllText(FILEPATH, string.Empty);
+            File.WriteAllText(filePath, string.Empty);
+            int index = -1;
+            for(int i = 0; i < users.Count; i++) 
+            {
+                if (users[i].Id == user.Id)
+                {
+                    index = i;
+                }
+            }
+            users.RemoveAt(index);
 
             for (int i = 0; i < users.Count; i++)
             {
-                if (users[i].Id != id)
-                {
-                    this.AddUser(users[i]);
-                }
+                this.AddUser(users[i]);
             }
 
-            return true;
+            return user;
         }
     }
 }

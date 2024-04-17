@@ -2,11 +2,11 @@
 // Tarteeb School (c) All rights reserved
 //----------------------------------------
 
-
-namespace FileDB.Composite
+namespace FileDB.Services.Files
 {
-    internal class Directory : IDirectory
+    internal class DirectoryService : IDirectoryService
     {
+        public DirectoryService() { }
         public long GetSize(DirectoryInfo folder)
         {
             long size = 0;
