@@ -23,6 +23,7 @@ namespace FileDB.Services.Identities
             {
                 instance = new IdentityService(storageBroker);
             }
+
             return instance;
         }
 

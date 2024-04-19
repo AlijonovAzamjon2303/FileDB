@@ -27,6 +27,7 @@ namespace FileDB.Services.UserServices
         private User CreateAndLogInvalidUser()
         {
             this.loggingBroker.LogError("User is invalid");
+
             return new User();
         }
         private User ValidateAndAddUser(User user)
@@ -41,6 +42,8 @@ namespace FileDB.Services.UserServices
                 this.loggingBroker.LogInforamation("User is created successfully");
                 return this.storageBroker.AddUser(user);
             }
+
+            return user;
         }
         public User Update(User user)
         {
@@ -67,11 +70,6 @@ namespace FileDB.Services.UserServices
 
             return user;
         }
-        public User Delete(User user)
-        {
-            this.storageBroker.DeleteUser(user);
-            
-            return user;
-        }
+        public User Delete(User user) =>   this.storageBroker.DeleteUser(user);
     }
 }
