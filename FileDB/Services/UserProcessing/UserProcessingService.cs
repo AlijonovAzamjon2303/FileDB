@@ -29,12 +29,7 @@ namespace FileDB.Services.UserProcessing
 
         public List<User> GetUsers() => this.userService.GetAllUsers();
 
-        public User UpdateUser(User user)
-        {
-            this.userService.Update(user);
-
-            return user;
-        }
+        public User UpdateUser(User user) => this.userService.Update(user);
 
         public User DeleteUser(int id)
         {
@@ -48,9 +43,7 @@ namespace FileDB.Services.UserProcessing
                 }
             }
 
-            this.userService.Delete(needDelete);
-
-            return needDelete;
+            return this.userService.Delete(needDelete);
         }
     }
 }
