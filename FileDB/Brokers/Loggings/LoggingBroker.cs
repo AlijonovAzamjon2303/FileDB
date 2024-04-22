@@ -32,7 +32,7 @@ namespace FileDB.Brokers.Loggings
             {
                 Console.WriteLine($"{user.Id}. {user.Name}");
             }
-            if (users is null)
+            if (users.Count == 0)
             {
                 this.LogInforamation("No users");
             }
