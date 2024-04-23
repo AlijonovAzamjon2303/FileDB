@@ -1,4 +1,5 @@
 # FileDB Console Application   
+# Text/Json database CRUD  
 Bu loyiha database sifatida fayllardan foydalanishga mo'ljallangan.   
 Siz quyidagi dasturda .json yoki .txt fayllardan database sifatida foydalanishni tanlashingiz mumkin.   
 [Interface](https://github.com/AlijonovAzamjon2303/FileDB/blob/master/FileDB/Brokers/Storages/IStorageBroker.cs)'lar qo'llanganligi sababli dasturimiz SOLID design principle'lariga to'liq tushadi.  
